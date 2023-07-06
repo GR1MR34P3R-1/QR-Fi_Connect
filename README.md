@@ -32,6 +32,5 @@ Ensure that your Wi-Fi interface name is correctly set in the script. Replace 'w
 Adjust the encryption type (encryption_type) in the generate_qr_code function based on your network's security settings.
 
 # 📄 License
-This project is licensed under the MIT License. See the LICENSE file for details.
-
+This project is licensed under the [MIT License](LICENSE). See the LICENSE file for details.
 Happy Wi-Fi sharing! 📶✨
