@@ -1,8 +1,8 @@
-import platform
 import tkinter as tk
 from tkinter import messagebox
 import qrcode
-import wifi
+import platform
+import os
 
 class WifiQRCodeGeneratorUI:
     def __init__(self):
@@ -26,14 +26,42 @@ class WifiQRCodeGeneratorUI:
     def get_wifi_details(self):
         wifi_networks = []
 
-        # Retrieve Wi-Fi cells
-        wifi_interface = self.get_wifi_interface()
-        cells = wifi.Cell.all(wifi_interface)
+        if platform.system() == "Linux":
+            try:
+                import wifi
 
-        # Extract SSID of each Wi-Fi network
-        for cell in cells:
-            ssid = cell.ssid
-            wifi_networks.append(ssid)
+                wifi_interface = self.get_wifi_interface()
+                cells = wifi.Cell.all(wifi_interface)
+
+                # Extract SSID of each Wi-Fi network
+                for cell in cells:
+                    ssid = cell.ssid
+                    wifi_networks.append(ssid)
+
+            except ImportError:
+                # Show a message if wifi module is not available
+                messagebox.showerror("Error", "The 'wifi' module is required but not found. "
+                                              "Please install it using 'pip install wifi'.")
+
+        elif platform.system() == "Windows":
+            try:
+                import subprocess
+
+                # Run netsh command to retrieve Wi-Fi network information on Windows
+                netsh_output = subprocess.check_output(["netsh", "wlan", "show", "network", "mode=bssid"])
+                netsh_output = netsh_output.decode("utf-8")
+
+                # Parse netsh output to get SSID of each Wi-Fi network
+                lines = netsh_output.splitlines()
+                for line in lines:
+                    if "SSID" in line:
+                        ssid = line.split(":")[1].strip()
+                        wifi_networks.append(ssid)
+
+            except FileNotFoundError:
+                # Show a message if netsh command is not available
+                messagebox.showerror("Error", "The 'netsh' command is required but not found. "
+                                              "Wi-Fi network scanning is not supported on this system.")
 
         return wifi_networks
 
@@ -41,7 +69,7 @@ class WifiQRCodeGeneratorUI:
         if platform.system() == "Linux":
             return "wlo1"  # Default interface name for Linux
         elif platform.system() == "Windows":
-            return "Wi-Fi"  # Default interface name for Windows
+            return None  # Return None for Windows since we don't need it
 
     def generate_qr_code(self):
         ssid = self.ssid_entry.get()
@@ -64,7 +92,11 @@ class WifiQRCodeGeneratorUI:
             qr.add_data(wifi_data)
             qr.make(fit=True)
             qr_image = qr.make_image(fill_color="black", back_color="white")
-            qr_image.save('wifi_qr_code.png')
+
+            # Get the current working directory and save the QR code in that location
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            qr_image.save(os.path.join(script_dir, 'wifi_qr_code.png'))
+
             messagebox.showinfo("Success", "Wi-Fi QR code generated successfully.")
         except Exception as e:
             messagebox.showerror("Error", f"An error occurred: {str(e)}")
