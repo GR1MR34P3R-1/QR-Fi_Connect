@@ -9,6 +9,7 @@ class WifiQRCodeGeneratorUI:
     def __init__(self):
         self.window = tk.Tk()
         self.window.title("Wi-Fi QR Code Generator")
+        self.window.geometry("400x250")
 
         self.ssid_label = tk.Label(self.window, text="Wi-Fi SSID:")
         self.ssid_entry = tk.Entry(self.window)
