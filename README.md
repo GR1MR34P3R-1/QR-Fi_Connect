@@ -4,6 +4,30 @@
 
 QR-Fi Connect is a Python script that generates a QR code for a specified Wi-Fi network, enabling easy sharing of network credentials with others. The generated QR code can be scanned by devices to quickly connect to the Wi-Fi network.
 
+# Table of Contents
+
+1. [Introduction](#introduction)
+    1.1 [Quick Start](#quick-start)
+    1.2 [Dependencies](#dependencies)
+
+2. [Installation](#installation)
+    2.1 [Ensure Python is Installed](#ensure-python-is-installed)
+    2.2 [Install Required Dependencies](#install-required-dependencies)
+    2.3 [Clone or Download](#clone-or-download)
+    2.4 [Run the Script](#run-the-script)
+
+3. [Usage](#usage)
+    3.1 [Running the Script](#running-the-script)
+    3.2 [Entering Wi-Fi Details](#entering-wi-fi-details)
+    3.3 [Generating QR Code](#generating-qr-code)
+    3.4 [Sharing QR Code](#sharing-qr-code)
+
+4. [Tips](#tips)
+
+5. [License](#license)
+
+6. [Happy Wi-Fi sharing!](#happy-wi-fi-sharing)
+
 ## 🚀 Quick Start
 
 1. Ensure that Python is installed on your system.
